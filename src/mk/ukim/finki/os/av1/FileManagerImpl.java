@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileManagerImpl implements FileManager {
@@ -133,8 +134,20 @@ public class FileManagerImpl implements FileManager {
 
     @Override
     public boolean deleteFile(File file) {
-        //TODO implement
-        return false;
+
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isFile()) {
+                    f.delete();
+                }
+                if (f.isDirectory()) {
+                    deleteFile(f);
+                }
+
+            }
+        }
+        return file.delete();
     }
 
     @Override
